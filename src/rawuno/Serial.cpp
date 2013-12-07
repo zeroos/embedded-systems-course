@@ -28,7 +28,7 @@ void Serial::init(const uint32_t baud) {
   }
 }
 
-int16_t Serial::recv_byte() {
+int16_t Serial::recvByte() {
   /* Wait for data to be received */
   while (bit_is_clear(UCSR0A, RXC0))
     sleep_mode();
@@ -48,7 +48,7 @@ int16_t Serial::recv_byte() {
   return byte;
 }
 
-int16_t Serial::send_byte(uint8_t byte) {
+int16_t Serial::sendByte(uint8_t byte) {
   /* Wait for empty transmit buffer */
   while (bit_is_clear(UCSR0A, UDRE0))
     sleep_mode();
@@ -62,14 +62,14 @@ int16_t Serial::send_byte(uint8_t byte) {
 static int ser_putc(char c, FILE *stream __attribute__((unused))) {
   /* Always put CR character after LF */
   if (c == '\n')
-    if (Serial::send_byte('\r') < 0)
+    if (Serial::sendByte('\r') < 0)
       return EOF;
 
-  return (Serial::send_byte(c) < 0) ? EOF : 0;
+  return (Serial::sendByte(c) < 0) ? EOF : 0;
 }
 
 static int ser_getc(FILE *stream __attribute__((unused))) {
-  int c = Serial::recv_byte();
+  int c = Serial::recvByte();
 
   if (c < 0)
     return EOF;
@@ -79,8 +79,16 @@ static int ser_getc(FILE *stream __attribute__((unused))) {
 
 static FILE ser_io;
 
-void Serial::attach_stdio() {
+void Serial::attachStdIO() {
   fdev_setup_stream(&ser_io, ser_putc, ser_getc, _FDEV_SETUP_RW);
 
   stdout = stdin = &ser_io;
+}
+
+void Serial::shutdown() {
+  bit_set(PRR, PRUSART0, 1);
+}
+
+void Serial::wakeup() {
+  bit_set(PRR, PRUSART0, 0);
 }

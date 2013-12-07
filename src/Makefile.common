@@ -54,6 +54,10 @@ install-%: %.hex
 	$(CC) -MD -MM $(CPPFLAGS) -o $@ $<
 	sed -i "" -e "s,\($*\)\.o[ :]*,\1.o $@ : ,g" $@
 
+%.d: %.cpp
+	$(CXX) -MD -MM $(CPPFLAGS) -o $@ $<
+	sed -i "" -e "s,\($*\)\.o[ :]*,\1.o $@ : ,g" $@
+
 clean::
 	rm -vf *.{elf,hex,d,o,a,map} *~
 

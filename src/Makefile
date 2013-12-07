@@ -1,8 +1,6 @@
-objects = serial.o
+objects = test_analog.o test_serial.o
 
-all:  libs serial.hex
-
-serial.elf: serial.o
+all:  libs test_analog.hex test_serial.hex
 
 include Makefile.common
 -include $(objects:.o=.d)

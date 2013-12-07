@@ -1,8 +1,7 @@
 #ifndef __RAWUNO_SERIAL_H__
 #define __RAWUNO_SERIAL_H__
 
-#include <avr/io.h>
-#include <stdint.h>
+#include "Common.h"
 
 namespace Serial {
   const int16_t FrameError  = -1 << 8;
@@ -10,10 +9,14 @@ namespace Serial {
   const int16_t ParityError = -3 << 8;
 
   void init(const uint32_t baud = 9600);
-  void attach_stdio();
+  void attachStdIO();
 
-  int16_t recv_byte();
-  int16_t send_byte(uint8_t data);
+  int16_t recvByte();
+  int16_t sendByte(uint8_t data);
+
+  /* power management functions */
+  void shutdown();
+  void wakeup();
 };
 
 #endif
