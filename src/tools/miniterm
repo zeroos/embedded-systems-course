@@ -1,0 +1,6 @@
+#!/bin/sh
+
+PORT=`ls -1 /dev/tty.usbmodemf*`
+BAUD=38400
+
+python -m serial.tools.miniterm ${PORT} ${BAUD}
