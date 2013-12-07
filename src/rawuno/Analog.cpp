@@ -1,6 +1,5 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
-#include <util/atomic.h>
 
 #include "Analog.h"
 #include "Pin.h"
