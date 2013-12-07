@@ -10,9 +10,10 @@ namespace Serial {
   const int16_t ParityError = -3 << 8;
 
   void init(const uint32_t baud = 9600);
+  void attach_stdio();
 
   int16_t recv_byte();
-  void send_byte(uint8_t data);
+  int16_t send_byte(uint8_t data);
 };
 
 #endif

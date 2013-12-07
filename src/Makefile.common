@@ -5,44 +5,47 @@ F_CPU = 16000000
 # Device for programmer
 PORT = $(wildcard /dev/tty.usbmodemf*)
 
-AR = avr-ar
-AS = avr-as
-CC = avr-gcc -mmcu=$(MCU)
-CXX = avr-g++ -mmcu=$(MCU)
+AR      = avr-ar
+AS      = avr-as
+CC      = avr-gcc -mmcu=$(MCU)
+CXX     = avr-g++ -mmcu=$(MCU)
 OBJCOPY = avr-objcopy
-RANLIB = avr-ranlib
+OBJDUMP = avr-objdump
+RANLIB  = avr-ranlib
+READELF = avr-readelf
 
-ARFLAGS =
-CFLAGS = -O2 -Wall -Wextra
+ARFLAGS  =
+CFLAGS   = -Os -Wall -Wextra
 CPPFLAGS = -DF_CPU=$(F_CPU) 
 CXXFLAGS = $(CFLAGS)
-LDFLAGS =
-LDLIBS =
+LDFLAGS  =
+LDLIBS   =
 
-SFMT = "%6s  %-20s\n"
-LFMT = "%6s  %-20s { %s }\n"
+FMT = "%6s  %-20s { %s }\n"
 
 %.o: %.c
-	@printf $(LFMT) "CC" "$@" "$^"
+	@printf $(FMT) "CC" "$@" "$^"
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 %.o: %.cpp
-	@printf $(LFMT) "CXX" "$@" "$^"
+	@printf $(FMT) "CXX" "$@" "$^"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 %.a:
-	@printf $(LFMT) "AR" "$@" "$^"
+	@printf $(FMT) "LIB" "$@" "$^"
 	$(AR) cr $@ $^
-	@printf $(SFMT) "RANLIB" "$@"
 	$(RANLIB) $@
 
 %.elf: %.o
-	@printf $(LFMT) "LINK" "$@" "$^ $(LDLIBS)"
+	@printf $(FMT) "LINK" "$@" "$^ $(LDLIBS)"
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 %.hex: %.elf
-	@printf $(LFMT) "HEX" "$@" "$^"
+	@printf $(FMT) "HEX" "$@" "$(shell tools/memusage.py $<)"
 	$(OBJCOPY) -j .text -j .data -O ihex $< $@
+
+info-%: %.elf
+	$(READELF) -S $<
 
 install-%: %.hex
 	avrdude -p $(MCU) -c arduino -P $(PORT) -v -U flash:w:$<
@@ -51,7 +54,7 @@ install-%: %.hex
 	$(CC) -MD -MM $(CPPFLAGS) -o $@ $<
 	sed -i "" -e "s,\($*\)\.o[ :]*,\1.o $@ : ,g" $@
 
-clean:
+clean::
 	rm -vf *.{elf,hex,d,o,a,map} *~
 
 ifneq ($(VERBOSE), 1)
