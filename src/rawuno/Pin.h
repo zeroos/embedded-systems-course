@@ -40,28 +40,78 @@ namespace Pin {
       }
     }
 
-    bool read() {
-      bool value = false;
+    inline bool read() {
+      if (PIN < 8)
+        return bit_is_set(PIND, PIN);
+      else if (PIN < 14)
+        return bit_is_set(PINB, PIN - 8);
+      else if (PIN < 20)
+        return bit_is_set(PINC, PIN - 14);
+      return false;
+    }
 
-      if (PIN < 8) {
-        value = bit_is_set(PIND, PIN);
-      } else if (PIN < 14) {
-        value = bit_is_set(PINB, PIN - 8);
-      } else if (PIN < 20) {
-        value = bit_is_set(PINC, PIN - 14);
-      }
+    inline void high() {
+      if (PIN < 8)
+        PORTD |= _BV(PIN);
+      else if (PIN < 14)
+        PORTB |= _BV(PIN - 8);
+      else if (PIN < 20)
+        PORTC |= _BV(PIN - 14);
+    }
 
-      return value;
+    inline void low() {
+      if (PIN < 8)
+        PORTD &= ~_BV(PIN);
+      else if (PIN < 14)
+        PORTB &= ~_BV(PIN - 8);
+      else if (PIN < 20)
+        PORTC &= ~_BV(PIN - 14);
     }
 
     void write(bool value) {
-      if (PIN < 8) {
-        bit_set(PORTD, PIN, value);
-      } else if (PIN < 14) {
-        bit_set(PORTB, PIN - 8, value);
-      } else if (PIN < 20) {
-        bit_set(PORTC, PIN - 14, value);
+      if (value)
+        high();
+      else
+        low();
+    }
+
+    template <int CLK>
+    void shiftOut(Pin<CLK> clock, BitOrder bitOrder, uint8_t value)
+    {
+      if (bitOrder == LSBFIRST) {
+        for (int8_t i = 0; i < 8; i++) {
+          write(value & _BV(i));
+          clock.high();
+          clock.low();		
+        }
+      } else {
+        for (int8_t i = 7; i >= 0; i--) {
+          write(value & _BV(i));
+          clock.high();
+          clock.low();
+        }
       }
+    }
+
+    template <int CLK>
+    uint8_t shiftIn(Pin<CLK> clock, BitOrder bitOrder) {
+      uint8_t value = 0;
+
+      if (bitOrder == LSBFIRST) {
+        for (int8_t i = 0; i < 8; i++) {
+          clock.high();
+          value |= read() << i;
+          clock.low();
+        }
+      } else {
+        for (int8_t i = 7; i >= 0; i--) {
+          clock.high();
+          value |= read() << i;
+          clock.low();
+        }
+      }
+
+      return value;
     }
   };
 

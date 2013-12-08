@@ -11,12 +11,12 @@ int main() {
 
   do {
     if (!button.read()) {
-      led.write(true);
+      led.high();
       _delay_ms(500);
-      led.write(false);
+      led.low();
       _delay_ms(500);
     } else {
-      led.write(false);
+      led.low();
     }
   } while (true);
 }
