@@ -40,6 +40,8 @@ FMT = "%6s  %-20s { %s }\n"
 	@printf $(FMT) "LINK" "$@" "$^ $(LDLIBS)"
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
+.PRECIOUS: %.elf
+
 %.hex: %.elf
 	@printf $(FMT) "HEX" "$@" "$(shell tools/memusage.py $<)"
 	$(OBJCOPY) -j .text -j .data -O ihex $< $@

@@ -14,8 +14,8 @@ if __name__ == '__main__':
       name, size = fields[1:3]
       sections[name] = int(size, base=16)
 
-  text = sections['.text']
-  data = sections['.data']
-  bss = sections['.bss']
+  text = sections.get('.text', 0)
+  data = sections.get('.data', 0)
+  bss = sections.get('.bss', 0)
 
   print "RAM: %d / 2048, FLASH: %d / 32768" % (data + bss, text + data)
