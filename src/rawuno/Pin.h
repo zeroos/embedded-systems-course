@@ -1,8 +1,6 @@
 #ifndef __RAWUNO_PIN_H__
 #define __RAWUNO_PIN_H__
 
-#include <avr/io.h>
-
 #include "Common.h"
 
 static const uint8_t RX = 0;
@@ -24,6 +22,7 @@ static const uint8_t SDA = 18;
 static const uint8_t SCL = 19;
 
 typedef enum { INPUT, INPUT_PULLUP, OUTPUT } PinMode;
+typedef enum { MSBFIRST, LSBFIRST } BitOrder;
 
 namespace Pin {
   static UNUSED inline void mode(uint8_t pin, PinMode mode) {
@@ -62,6 +61,10 @@ namespace Pin {
       bit_set(PORTC, pin - 14, value);
     }
   }
+
+  void shiftOut(uint8_t dataPin, uint8_t clockPin, BitOrder bitOrder,
+                uint8_t value);
+  uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, BitOrder bitOrder);
 };
 
 #endif

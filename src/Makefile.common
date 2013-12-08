@@ -15,7 +15,7 @@ RANLIB  = avr-ranlib
 READELF = avr-readelf
 
 ARFLAGS  =
-CFLAGS   = -Os -Wall -Wextra
+CFLAGS   = -Os -Wall -Wextra -Werror
 CPPFLAGS = -DF_CPU=$(F_CPU) 
 CXXFLAGS = $(CFLAGS)
 LDFLAGS  =

@@ -1,4 +1,4 @@
-objects = Analog.o EEPROM.o Serial.o SPI.o
+objects = Analog.o EEPROM.o Pin.o Serial.o SPI.o
 
 librawuno.a: $(objects)
 
