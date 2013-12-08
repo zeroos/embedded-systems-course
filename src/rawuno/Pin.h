@@ -25,43 +25,49 @@ typedef enum { INPUT, INPUT_PULLUP, OUTPUT } PinMode;
 typedef enum { MSBFIRST, LSBFIRST } BitOrder;
 
 namespace Pin {
-  static UNUSED inline void mode(uint8_t pin, PinMode mode) {
-    if (pin < 8) {
-      bit_set(DDRD, pin, mode == OUTPUT);
-      bit_set(PORTD, pin, mode == INPUT_PULLUP);
-    } else if (pin < 14) {
-      bit_set(DDRB, pin - 8, mode == OUTPUT);
-      bit_set(PORTB, pin - 8, mode == INPUT_PULLUP);
-    } else if (pin < 20) {
-      bit_set(DDRC, pin - 14, mode == OUTPUT);
-      bit_set(PORTC, pin - 14, mode == INPUT_PULLUP);
-    }
-  }
-
-  static UNUSED inline bool read(uint8_t pin) {
-    bool value = false;
-
-    if (pin < 8) {
-      value = bit_is_set(PIND, pin);
-    } else if (pin < 14) {
-      value = bit_is_set(PINB, pin - 8);
-    } else if (pin < 20) {
-      value = bit_is_set(PINC, pin - 14);
+  template <int PIN>
+  struct Pin {
+    void mode(PinMode mode) {
+      if (PIN < 8) {
+        bit_set(DDRD, PIN, mode == OUTPUT);
+        bit_set(PORTD, PIN, mode == INPUT_PULLUP);
+      } else if (PIN < 14) {
+        bit_set(DDRB, PIN - 8, mode == OUTPUT);
+        bit_set(PORTB, PIN - 8, mode == INPUT_PULLUP);
+      } else if (PIN < 20) {
+        bit_set(DDRC, PIN - 14, mode == OUTPUT);
+        bit_set(PORTC, PIN - 14, mode == INPUT_PULLUP);
+      }
     }
 
-    return value;
-  }
+    bool read() {
+      bool value = false;
 
-  static UNUSED inline void write(uint8_t pin, bool value) {
-    if (pin < 8) {
-      bit_set(PORTD, pin, value);
-    } else if (pin < 14) {
-      bit_set(PORTB, pin - 8, value);
-    } else if (pin < 20) {
-      bit_set(PORTC, pin - 14, value);
+      if (PIN < 8) {
+        value = bit_is_set(PIND, PIN);
+      } else if (PIN < 14) {
+        value = bit_is_set(PINB, PIN - 8);
+      } else if (PIN < 20) {
+        value = bit_is_set(PINC, PIN - 14);
+      }
+
+      return value;
     }
-  }
 
+    void write(bool value) {
+      if (PIN < 8) {
+        bit_set(PORTD, PIN, value);
+      } else if (PIN < 14) {
+        bit_set(PORTB, PIN - 8, value);
+      } else if (PIN < 20) {
+        bit_set(PORTC, PIN - 14, value);
+      }
+    }
+  };
+
+  void mode(uint8_t pin, PinMode mode);
+  bool read(uint8_t pin);
+  void write(uint8_t pin, bool value);
   void shiftOut(uint8_t dataPin, uint8_t clockPin, BitOrder bitOrder,
                 uint8_t value);
   uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, BitOrder bitOrder);

@@ -2,18 +2,21 @@
 
 #include "Pin.h"
 
+static Pin::Pin<2> button;
+static Pin::Pin<13> led;
+
 int main() {
-  Pin::mode(13, OUTPUT);
-  Pin::mode(2, INPUT_PULLUP);
+  led.mode(OUTPUT);
+  button.mode(INPUT_PULLUP);
 
   do {
-    if (!Pin::read(2)) {
-      Pin::write(13, true);
+    if (!button.read()) {
+      led.write(true);
       _delay_ms(500);
-      Pin::write(13, false);
+      led.write(false);
       _delay_ms(500);
     } else {
-      Pin::write(13, false);
+      led.write(false);
     }
   } while (true);
 }

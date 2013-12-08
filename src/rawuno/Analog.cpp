@@ -18,7 +18,9 @@ int16_t Analog::read(uint8_t pin) {
     pin -= A0;
 
   if (pin < 6) {
-    Pin::mode(A0 + pin, INPUT);
+    /* Set up pin mode */
+    bit_set(DDRC, pin, 0);
+    bit_set(PORTC, pin, 0);
     /* Set up input pin and reference voltage */
     ADMUX = (voltageRef << 6) | pin;
     /* Digital input disable on analog pin. */

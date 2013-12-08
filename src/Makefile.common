@@ -16,8 +16,8 @@ READELF = avr-readelf
 
 ARFLAGS  =
 CFLAGS   = -Os -Wall -Wextra -Werror
-CPPFLAGS = -DF_CPU=$(F_CPU) 
-CXXFLAGS = $(CFLAGS)
+CPPFLAGS = -DF_CPU=$(F_CPU)
+CXXFLAGS = $(CFLAGS) -std=c++11
 LDFLAGS  =
 LDLIBS   =
 

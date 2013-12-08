@@ -2,13 +2,12 @@
 
 #include "Pin.h"
 
-#if 0
 /*
  * This code is ugly as fuck, but it's the fastest (?) implementation when
  * arguments are known only at runtime.
  */
 
-void Pin::mode(const uint8_t pin, const PinMode mode) {
+void Pin::mode(uint8_t pin, PinMode mode) {
   if (mode == OUTPUT) {
     switch (pin) {
       case  0: DDRD |= _BV(DDD0); break;
@@ -65,10 +64,10 @@ void Pin::mode(const uint8_t pin, const PinMode mode) {
     }
   }
 
-  Pin::write(pin, mode == INPUT_PULLUP);
+  write(pin, mode == INPUT_PULLUP);
 }
 
-bool Pin::read(const uint8_t pin) {
+bool Pin::read(uint8_t pin) {
   switch (pin) {
     case 0: return bit_is_set(PIND, PIN0);
     case 1: return bit_is_set(PIND, PIN1);
@@ -97,7 +96,7 @@ bool Pin::read(const uint8_t pin) {
   }
 }
 
-void Pin::write(const uint8_t pin, const bool value) {
+void Pin::write(uint8_t pin, bool value) {
   if (value) {
     switch (pin) {
       case  0: PORTD |= _BV(PD0); break;
@@ -154,22 +153,21 @@ void Pin::write(const uint8_t pin, const bool value) {
     }
   }
 }
-#endif
 
 void Pin::shiftOut(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder,
                    uint8_t value)
 {
   if (bitOrder == LSBFIRST) {
     for (int8_t i = 0; i < 8; i++) {
-      Pin::write(dataPin, (value & _BV(i)) ? 1 : 0);
-      Pin::write(clkPin, 1);
-      Pin::write(clkPin, 0);		
+      write(dataPin, (value & _BV(i)) ? 1 : 0);
+      write(clkPin, 1);
+      write(clkPin, 0);		
     }
   } else {
     for (int8_t i = 7; i >= 0; i--) {
-      Pin::write(dataPin, (value & _BV(i)) ? 1 : 0);
-      Pin::write(clkPin, 1);
-      Pin::write(clkPin, 0);		
+      write(dataPin, (value & _BV(i)) ? 1 : 0);
+      write(clkPin, 1);
+      write(clkPin, 0);		
     }
   }
 }
@@ -179,15 +177,15 @@ uint8_t Pin::shiftIn(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder) {
 
   if (bitOrder == LSBFIRST) {
     for (int8_t i = 0; i < 8; i++) {
-      Pin::write(clkPin, 1);
-      value |= Pin::read(dataPin) << i;
-      Pin::write(clkPin, 0);
+      write(clkPin, 1);
+      value |= read(dataPin) << i;
+      write(clkPin, 0);
     }
   } else {
     for (int8_t i = 7; i >= 0; i--) {
-      Pin::write(clkPin, 1);
-      value |= Pin::read(dataPin) << i;
-      Pin::write(clkPin, 0);
+      write(clkPin, 1);
+      value |= read(dataPin) << i;
+      write(clkPin, 0);
     }
   }
 
