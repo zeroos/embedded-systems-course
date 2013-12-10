@@ -1,11 +1,9 @@
 #ifndef __RAWUNO_PROGMEM_H__
 #define __RAWUNO_PROGMEM_H__
 
-#include "Common.h"
+#include <avr/pgmspace.h>
 
-#ifndef PROGMEM
-#define PROGMEM __attribute__((progmem))
-#endif
+#include "Common.h"
 
 #define PGM_BYTE_ARRAY(NAME, ...) \
   const struct { \

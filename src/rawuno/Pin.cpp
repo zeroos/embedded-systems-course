@@ -10,55 +10,55 @@
 void Pin::mode(uint8_t pin, PinMode mode) {
   if (mode == OUTPUT) {
     switch (pin) {
-      case  0: DDRD |= _BV(DDD0); break;
-      case  1: DDRD |= _BV(DDD1); break;
-      case  2: DDRD |= _BV(DDD2); break;
-      case  3: DDRD |= _BV(DDD3); break;
-      case  4: DDRD |= _BV(DDD4); break;
-      case  5: DDRD |= _BV(DDD5); break;
-      case  6: DDRD |= _BV(DDD6); break;
-      case  7: DDRD |= _BV(DDD7); break;
+      case  0: bset(DDRD, DDD0); break;
+      case  1: bset(DDRD, DDD1); break;
+      case  2: bset(DDRD, DDD2); break;
+      case  3: bset(DDRD, DDD3); break;
+      case  4: bset(DDRD, DDD4); break;
+      case  5: bset(DDRD, DDD5); break;
+      case  6: bset(DDRD, DDD6); break;
+      case  7: bset(DDRD, DDD7); break;
 
-      case  8: DDRC |= _BV(DDC0); break;
-      case  9: DDRC |= _BV(DDC1); break;
-      case 10: DDRC |= _BV(DDC2); break;
-      case 11: DDRC |= _BV(DDC3); break;
-      case 12: DDRC |= _BV(DDC4); break;
-      case 13: DDRC |= _BV(DDC5); break;
+      case  8: bset(DDRC, DDC0); break;
+      case  9: bset(DDRC, DDC1); break;
+      case 10: bset(DDRC, DDC2); break;
+      case 11: bset(DDRC, DDC3); break;
+      case 12: bset(DDRC, DDC4); break;
+      case 13: bset(DDRC, DDC5); break;
 
-      case 14: DDRB |= _BV(DDB0); break;
-      case 15: DDRB |= _BV(DDB1); break;
-      case 16: DDRB |= _BV(DDB2); break;
-      case 17: DDRB |= _BV(DDB3); break;
-      case 18: DDRB |= _BV(DDB4); break;
-      case 19: DDRB |= _BV(DDB5); break;
+      case 14: bset(DDRB, DDB0); break;
+      case 15: bset(DDRB, DDB1); break;
+      case 16: bset(DDRB, DDB2); break;
+      case 17: bset(DDRB, DDB3); break;
+      case 18: bset(DDRB, DDB4); break;
+      case 19: bset(DDRB, DDB5); break;
 
       default: break;
     }
   } else {
     switch (pin) {
-      case  0: DDRD &= ~_BV(DDD0); break;
-      case  1: DDRD &= ~_BV(DDD1); break;
-      case  2: DDRD &= ~_BV(DDD2); break;
-      case  3: DDRD &= ~_BV(DDD3); break;
-      case  4: DDRD &= ~_BV(DDD4); break;
-      case  5: DDRD &= ~_BV(DDD5); break;
-      case  6: DDRD &= ~_BV(DDD6); break;
-      case  7: DDRD &= ~_BV(DDD7); break;
+      case  0: bclr(DDRD, DDD0); break;
+      case  1: bclr(DDRD, DDD1); break;
+      case  2: bclr(DDRD, DDD2); break;
+      case  3: bclr(DDRD, DDD3); break;
+      case  4: bclr(DDRD, DDD4); break;
+      case  5: bclr(DDRD, DDD5); break;
+      case  6: bclr(DDRD, DDD6); break;
+      case  7: bclr(DDRD, DDD7); break;
 
-      case  8: DDRC &= ~_BV(DDC0); break;
-      case  9: DDRC &= ~_BV(DDC1); break;
-      case 10: DDRC &= ~_BV(DDC2); break;
-      case 11: DDRC &= ~_BV(DDC3); break;
-      case 12: DDRC &= ~_BV(DDC4); break;
-      case 13: DDRC &= ~_BV(DDC5); break;
+      case  8: bclr(DDRC, DDC0); break;
+      case  9: bclr(DDRC, DDC1); break;
+      case 10: bclr(DDRC, DDC2); break;
+      case 11: bclr(DDRC, DDC3); break;
+      case 12: bclr(DDRC, DDC4); break;
+      case 13: bclr(DDRC, DDC5); break;
 
-      case 14: DDRB &= ~_BV(DDB0); break;
-      case 15: DDRB &= ~_BV(DDB1); break;
-      case 16: DDRB &= ~_BV(DDB2); break;
-      case 17: DDRB &= ~_BV(DDB3); break;
-      case 18: DDRB &= ~_BV(DDB4); break;
-      case 19: DDRB &= ~_BV(DDB5); break;
+      case 14: bclr(DDRB, DDB0); break;
+      case 15: bclr(DDRB, DDB1); break;
+      case 16: bclr(DDRB, DDB2); break;
+      case 17: bclr(DDRB, DDB3); break;
+      case 18: bclr(DDRB, DDB4); break;
+      case 19: bclr(DDRB, DDB5); break;
 
       default: break;
     }
@@ -99,55 +99,55 @@ bool Pin::read(uint8_t pin) {
 void Pin::write(uint8_t pin, bool value) {
   if (value) {
     switch (pin) {
-      case  0: PORTD |= _BV(PD0); break;
-      case  1: PORTD |= _BV(PD1); break;
-      case  2: PORTD |= _BV(PD2); break;
-      case  3: PORTD |= _BV(PD3); break;
-      case  4: PORTD |= _BV(PD4); break;
-      case  5: PORTD |= _BV(PD5); break;
-      case  6: PORTD |= _BV(PD6); break;
-      case  7: PORTD |= _BV(PD7); break;
+      case  0: bset(PORTD, PD0); break;
+      case  1: bset(PORTD, PD1); break;
+      case  2: bset(PORTD, PD2); break;
+      case  3: bset(PORTD, PD3); break;
+      case  4: bset(PORTD, PD4); break;
+      case  5: bset(PORTD, PD5); break;
+      case  6: bset(PORTD, PD6); break;
+      case  7: bset(PORTD, PD7); break;
 
-      case  8: PORTC |= _BV(PC0); break;
-      case  9: PORTC |= _BV(PC1); break;
-      case 10: PORTC |= _BV(PC2); break;
-      case 11: PORTC |= _BV(PC3); break;
-      case 12: PORTC |= _BV(PC4); break;
-      case 13: PORTC |= _BV(PC5); break;
+      case  8: bset(PORTC, PC0); break;
+      case  9: bset(PORTC, PC1); break;
+      case 10: bset(PORTC, PC2); break;
+      case 11: bset(PORTC, PC3); break;
+      case 12: bset(PORTC, PC4); break;
+      case 13: bset(PORTC, PC5); break;
 
-      case 14: PORTB |= _BV(PB0); break;
-      case 15: PORTB |= _BV(PB1); break;
-      case 16: PORTB |= _BV(PB2); break;
-      case 17: PORTB |= _BV(PB3); break;
-      case 18: PORTB |= _BV(PB4); break;
-      case 19: PORTB |= _BV(PB5); break;
+      case 14: bset(PORTB, PB0); break;
+      case 15: bset(PORTB, PB1); break;
+      case 16: bset(PORTB, PB2); break;
+      case 17: bset(PORTB, PB3); break;
+      case 18: bset(PORTB, PB4); break;
+      case 19: bset(PORTB, PB5); break;
 
       default: break;
     }
   } else {
     switch (pin) {
-      case  0: PORTD &= ~_BV(PD0); break;
-      case  1: PORTD &= ~_BV(PD1); break;
-      case  2: PORTD &= ~_BV(PD2); break;
-      case  3: PORTD &= ~_BV(PD3); break;
-      case  4: PORTD &= ~_BV(PD4); break;
-      case  5: PORTD &= ~_BV(PD5); break;
-      case  6: PORTD &= ~_BV(PD6); break;
-      case  7: PORTD &= ~_BV(PD7); break;
+      case  0: bclr(PORTD, PD0); break;
+      case  1: bclr(PORTD, PD1); break;
+      case  2: bclr(PORTD, PD2); break;
+      case  3: bclr(PORTD, PD3); break;
+      case  4: bclr(PORTD, PD4); break;
+      case  5: bclr(PORTD, PD5); break;
+      case  6: bclr(PORTD, PD6); break;
+      case  7: bclr(PORTD, PD7); break;
 
-      case  8: PORTC &= ~_BV(PC0); break;
-      case  9: PORTC &= ~_BV(PC1); break;
-      case 10: PORTC &= ~_BV(PC2); break;
-      case 11: PORTC &= ~_BV(PC3); break;
-      case 12: PORTC &= ~_BV(PC4); break;
-      case 13: PORTC &= ~_BV(PC5); break;
+      case  8: bclr(PORTC, PC0); break;
+      case  9: bclr(PORTC, PC1); break;
+      case 10: bclr(PORTC, PC2); break;
+      case 11: bclr(PORTC, PC3); break;
+      case 12: bclr(PORTC, PC4); break;
+      case 13: bclr(PORTC, PC5); break;
 
-      case 14: PORTB &= ~_BV(PB0); break;
-      case 15: PORTB &= ~_BV(PB1); break;
-      case 16: PORTB &= ~_BV(PB2); break;
-      case 17: PORTB &= ~_BV(PB3); break;
-      case 18: PORTB &= ~_BV(PB4); break;
-      case 19: PORTB &= ~_BV(PB5); break;
+      case 14: bclr(PORTB, PB0); break;
+      case 15: bclr(PORTB, PB1); break;
+      case 16: bclr(PORTB, PB2); break;
+      case 17: bclr(PORTB, PB3); break;
+      case 18: bclr(PORTB, PB4); break;
+      case 19: bclr(PORTB, PB5); break;
 
       default: break;
     }
@@ -159,13 +159,13 @@ void Pin::shiftOut(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder,
 {
   if (bitOrder == LSBFIRST) {
     for (int8_t i = 0; i < 8; i++) {
-      write(dataPin, (value & _BV(i)) ? 1 : 0);
+      write(dataPin, value & _BV(i));
       write(clkPin, 1);
       write(clkPin, 0);		
     }
   } else {
     for (int8_t i = 7; i >= 0; i--) {
-      write(dataPin, (value & _BV(i)) ? 1 : 0);
+      write(dataPin, value & _BV(i));
       write(clkPin, 1);
       write(clkPin, 0);		
     }

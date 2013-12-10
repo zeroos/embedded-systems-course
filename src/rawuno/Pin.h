@@ -1,6 +1,8 @@
 #ifndef __RAWUNO_PIN_H__
 #define __RAWUNO_PIN_H__
 
+#include <avr/io.h>
+
 #include "Common.h"
 
 static const uint8_t RX = 0;
@@ -29,14 +31,14 @@ namespace Pin {
   struct Pin {
     void mode(PinMode mode) {
       if (PIN < 8) {
-        bit_set(DDRD, PIN, mode == OUTPUT);
-        bit_set(PORTD, PIN, mode == INPUT_PULLUP);
+        bput(DDRD, PIN, mode == OUTPUT);
+        bput(PORTD, PIN, mode == INPUT_PULLUP);
       } else if (PIN < 14) {
-        bit_set(DDRB, PIN - 8, mode == OUTPUT);
-        bit_set(PORTB, PIN - 8, mode == INPUT_PULLUP);
+        bput(DDRB, PIN - 8, mode == OUTPUT);
+        bput(PORTB, PIN - 8, mode == INPUT_PULLUP);
       } else if (PIN < 20) {
-        bit_set(DDRC, PIN - 14, mode == OUTPUT);
-        bit_set(PORTC, PIN - 14, mode == INPUT_PULLUP);
+        bput(DDRC, PIN - 14, mode == OUTPUT);
+        bput(PORTC, PIN - 14, mode == INPUT_PULLUP);
       }
     }
 

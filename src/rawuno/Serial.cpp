@@ -86,9 +86,9 @@ void Serial::attachStdIO() {
 }
 
 void Serial::shutdown() {
-  bit_set(PRR, PRUSART0, 1);
+  bset(PRR, PRUSART0);
 }
 
 void Serial::wakeup() {
-  bit_set(PRR, PRUSART0, 0);
+  bclr(PRR, PRUSART0);
 }

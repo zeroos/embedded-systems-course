@@ -42,25 +42,25 @@ namespace Timer0 {
    */
   static UNUSED inline void enableInterrupt(Timer0::Interrupt interrupt) {
     switch (interrupt) {
-      case OVERFLOW:     TIMSK0 |= _BV(TOIE0); break;
-      case COMP_MATCH_A: TIMSK0 |= _BV(OCIE0A); break;
-      case COMP_MATCH_B: TIMSK0 |= _BV(OCIE0B); break;
+      case OVERFLOW:     bset(TIMSK0, TOIE0); break;
+      case COMP_MATCH_A: bset(TIMSK0, OCIE0A); break;
+      case COMP_MATCH_B: bset(TIMSK0, OCIE0B); break;
     }
   }
 
   static UNUSED inline void disableInterrupt(Timer0::Interrupt interrupt) {
     switch (interrupt) {
-      case OVERFLOW:     TIMSK0 &= ~_BV(TOIE0); break;
-      case COMP_MATCH_A: TIMSK0 &= ~_BV(OCIE0A); break;
-      case COMP_MATCH_B: TIMSK0 &= ~_BV(OCIE0B); break;
+      case OVERFLOW:     bclr(TIMSK0, TOIE0); break;
+      case COMP_MATCH_A: bclr(TIMSK0, OCIE0A); break;
+      case COMP_MATCH_B: bclr(TIMSK0, OCIE0B); break;
     }
   }
 
   static UNUSED inline void modeSelect(Mode mode, OutputA OA, OutputB OB) {
     if (OA)
-      DDRD |= _BV(PD6);
+      bset(DDRD, PD6);
     if (OB)
-      DDRD |= _BV(PD5);
+      bset(DDRD, PD5);
     TCCR0A = OA | OB | mode;
   }
 

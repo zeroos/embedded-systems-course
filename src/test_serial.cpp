@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "ProgMem.h"
 #include "Serial.h"
 
 int main() {

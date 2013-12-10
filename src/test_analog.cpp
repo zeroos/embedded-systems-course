@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "Analog.h"
+#include "ProgMem.h"
 #include "Serial.h"
 
 int main() {

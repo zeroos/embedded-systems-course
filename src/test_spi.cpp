@@ -1,6 +1,7 @@
 #include <avr/sleep.h>
 #include <stdio.h>
 
+#include "ProgMem.h"
 #include "Serial.h"
 #include "SPI.h"
 

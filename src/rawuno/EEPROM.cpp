@@ -14,7 +14,8 @@ uint8_t EEPROM::read(uint16_t address) {
   /* Set up Address Register */
   EEAR = address;
   /* Start EEPROM read */
-  EECR |= _BV(EERE);
+  bset(EECR, EERE);
+
   /* Return data from Data Register */
   return EEDR;
 }
@@ -27,8 +28,9 @@ void EEPROM::write(uint16_t address, uint8_t data) {
   /* Set up Address and Data Registers */
   EEAR = address;
   EEDR = data;
+
   /* Enable EEPROM write for next 4 cycles */
-  EECR |= _BV(EEMPE);
+  bset(EECR, EEMPE);
   /* Start EEPROM write */
-  EECR |= _BV(EEPE);
+  bset(EECR, EEPE);
 }

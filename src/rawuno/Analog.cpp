@@ -19,8 +19,8 @@ int16_t Analog::read(uint8_t pin) {
 
   if (pin < 6) {
     /* Set up pin mode */
-    bit_set(DDRC, pin, 0);
-    bit_set(PORTC, pin, 0);
+    bclr(DDRC, pin);
+    bclr(PORTC, pin);
     /* Set up input pin and reference voltage */
     ADMUX = (voltageRef << 6) | pin;
     /* Digital input disable on analog pin. */
@@ -38,7 +38,7 @@ int16_t Analog::read(uint8_t pin) {
   ADCSRA = _BV(ADIE) | _BV(ADEN);
 
   /* Start conversion! */
-  bit_set(ADCSRA, ADSC, 1);
+  bset(ADCSRA, ADSC);
 
   while (bit_is_set(ADCSRA, ADSC))
     sleep_mode();
@@ -51,10 +51,10 @@ int16_t Analog::read(uint8_t pin) {
 
 void Analog::shutdown() {
   /* Disable ADC before shutdown */
-  bit_set(ADCSRA, ADEN, 0);
-  bit_set(PRR, PRADC, 1);
+  bclr(ADCSRA, ADEN);
+  bset(PRR, PRADC);
 }
 
 void Analog::wakeup() {
-  bit_set(PRR, PRADC, 0);
+  bclr(PRR, PRADC);
 }

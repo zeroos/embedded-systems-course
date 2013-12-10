@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "EEPROM.h"
+#include "ProgMem.h"
 #include "Serial.h"
 
 static EEPROM::Byte counter;
