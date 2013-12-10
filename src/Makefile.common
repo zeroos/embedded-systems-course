@@ -31,6 +31,10 @@ FMT = "%6s  %-20s { %s }\n"
 	@printf $(FMT) "CXX" "$@" "$^"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
+%.s: %.cpp
+	@printf $(FMT) "CC" "$@" "$^"
+	$(CC) $(CPPFLAGS) $(CFLAGS) -S -o $@ $<
+
 %.a:
 	@printf $(FMT) "LIB" "$@" "$^"
 	$(AR) cr $@ $^

@@ -17,7 +17,7 @@ ISR(TIMER0_OVF_vect) {
     diff = 1;
 
   Timer0::counter(0);
-  Timer0::compareA(pgm_read_byte_near(sintab + value));
+  Timer0::compareA(sintab[value]);
 }
 
 int main() {

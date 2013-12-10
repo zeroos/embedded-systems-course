@@ -15,7 +15,7 @@ EMPTY_INTERRUPT(USART_UDRE_vect);
 void Serial::init(const uint32_t baud) {
   uint16_t ubrr = (F_CPU + 4UL * baud) / (8UL * baud) - 1UL;
 
-  ATOMIC_BLOCK(ATOMIC_FORCEON) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     UBRR0H = ubrr >> 8;
     UBRR0L = ubrr & 0xff;
 
