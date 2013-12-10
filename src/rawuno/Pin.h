@@ -44,37 +44,34 @@ namespace Pin {
 
     inline bool read() {
       if (PIN < 8)
-        return bit_is_set(PIND, PIN);
+        return bget(PIND, PIN);
       else if (PIN < 14)
-        return bit_is_set(PINB, PIN - 8);
+        return bget(PINB, PIN - 8);
       else if (PIN < 20)
-        return bit_is_set(PINC, PIN - 14);
+        return bget(PINC, PIN - 14);
       return false;
     }
 
     inline void high() {
       if (PIN < 8)
-        PORTD |= _BV(PIN);
+        bset(PORTD, PIN);
       else if (PIN < 14)
-        PORTB |= _BV(PIN - 8);
+        bset(PORTB, PIN - 8);
       else if (PIN < 20)
-        PORTC |= _BV(PIN - 14);
+        bset(PORTC, PIN - 14);
     }
 
     inline void low() {
       if (PIN < 8)
-        PORTD &= ~_BV(PIN);
+        bclr(PORTD, PIN);
       else if (PIN < 14)
-        PORTB &= ~_BV(PIN - 8);
+        bclr(PORTB, PIN - 8);
       else if (PIN < 20)
-        PORTC &= ~_BV(PIN - 14);
+        bclr(PORTC, PIN - 14);
     }
 
     void write(bool value) {
-      if (value)
-        high();
-      else
-        low();
+      if (value) high(); else low();
     }
 
     template <int CLK>
@@ -82,13 +79,13 @@ namespace Pin {
     {
       if (bitOrder == LSBFIRST) {
         for (int8_t i = 0; i < 8; i++) {
-          write(value & _BV(i));
+          write(bget(value, i));
           clock.high();
           clock.low();		
         }
       } else {
         for (int8_t i = 7; i >= 0; i--) {
-          write(value & _BV(i));
+          write(bget(value, i));
           clock.high();
           clock.low();
         }
