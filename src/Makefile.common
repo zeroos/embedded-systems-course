@@ -32,8 +32,8 @@ FMT = "%6s  %-20s { %s }\n"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 %.s: %.cpp
-	@printf $(FMT) "CC" "$@" "$^"
-	$(CC) $(CPPFLAGS) $(CFLAGS) -S -o $@ $<
+	@printf $(FMT) "CXX" "$@" "$^"
+	$(CXX) $(CPPFLAGS) $(CFLAGS) -fverbose-asm -S -o $@ $<
 
 %.a:
 	@printf $(FMT) "LIB" "$@" "$^"

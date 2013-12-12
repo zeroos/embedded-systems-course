@@ -29,7 +29,7 @@ typedef enum { MSBFIRST, LSBFIRST } BitOrder;
 namespace Pin {
   template <int PIN>
   struct Pin {
-    void mode(PinMode mode) {
+    void mode(PinMode mode) const {
       if (PIN < 8) {
         bput(DDRD, PIN, mode == OUTPUT);
         bput(PORTD, PIN, mode == INPUT_PULLUP);
@@ -42,7 +42,7 @@ namespace Pin {
       }
     }
 
-    inline bool read() {
+    inline bool read() const {
       if (PIN < 8)
         return bget(PIND, PIN);
       else if (PIN < 14)
@@ -52,7 +52,7 @@ namespace Pin {
       return false;
     }
 
-    inline void high() {
+    inline void high() const {
       if (PIN < 8)
         bset(PORTD, PIN);
       else if (PIN < 14)
@@ -61,7 +61,7 @@ namespace Pin {
         bset(PORTC, PIN - 14);
     }
 
-    inline void low() {
+    inline void low() const {
       if (PIN < 8)
         bclr(PORTD, PIN);
       else if (PIN < 14)
@@ -70,12 +70,12 @@ namespace Pin {
         bclr(PORTC, PIN - 14);
     }
 
-    void write(bool value) {
+    void write(bool value) const {
       if (value) high(); else low();
     }
 
     template <int CLK>
-    void shiftOut(Pin<CLK> clock, BitOrder bitOrder, uint8_t value)
+    void shiftOut(Pin<CLK> clock, BitOrder bitOrder, uint8_t value) const
     {
       if (bitOrder == LSBFIRST) {
         for (int8_t i = 0; i < 8; i++) {
@@ -93,7 +93,8 @@ namespace Pin {
     }
 
     template <int CLK>
-    uint8_t shiftIn(Pin<CLK> clock, BitOrder bitOrder) {
+    uint8_t shiftIn(Pin<CLK> clock, BitOrder bitOrder) const
+    {
       uint8_t value = 0;
 
       if (bitOrder == LSBFIRST) {

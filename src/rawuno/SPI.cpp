@@ -1,19 +1,28 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
-#include <util/atomic.h>
 
-#include "Pin.h"
+#include "GenIOReg.h"
 #include "SPI.h"
 
-/* SPI serial transfer complete interrupt */
-EMPTY_INTERRUPT(SPI_STC_vect);
+/*
+ * SPI serial transfer complete interrupt.
+ *
+ * We cannot rely on SPIF flag in SPI::transmit waiting loop as it's cleared
+ * automatically when CPU enters interrupt handler.
+ */
+ISR (SPI_STC_vect, ISR_NAKED) {
+  bset(GIO0, SPI_IRQ);
+  reti();
+}
 
 uint8_t SPI::transmit(uint8_t data) {
   SPDR = data;
 
   /* Wait for transmission completion */
-  while (bit_is_clear(SPSR, SPIF))
+  while (!bget(GIO0, SPI_IRQ))
     sleep_mode();
+
+  bclr(GIO0, SPI_IRQ);
 
   return SPDR;
 }
