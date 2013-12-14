@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_ANALOG__
-#define __RAWUNO_ANALOG__
+#ifndef __HAL_ANALOG__
+#define __HAL_ANALOG__
 
 #include "Pin.h"
 

@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_PROGMEM_H__
-#define __RAWUNO_PROGMEM_H__
+#ifndef __HAL_PROGMEM_H__
+#define __HAL_PROGMEM_H__
 
 #include <avr/pgmspace.h>
 

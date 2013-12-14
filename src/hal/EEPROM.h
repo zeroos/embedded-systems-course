@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_EEPROM_H__
-#define __RAWUNO_EEPROM_H__
+#ifndef __HAL_EEPROM_H__
+#define __HAL_EEPROM_H__
 
 #include "Common.h"
 

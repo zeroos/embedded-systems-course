@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_TIMER0_H__
-#define __RAWUNO_TIMER0_H__
+#ifndef __HAL_TIMER0_H__
+#define __HAL_TIMER0_H__
 
 #include "Common.h"
 

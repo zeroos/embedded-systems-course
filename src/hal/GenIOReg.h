@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_GENIOREG_H__
-#define __RAWUNO_GENIOREG_H__
+#ifndef __HAL_GENIOREG_H__
+#define __HAL_GENIOREG_H__
 
 #include <avr/sfr_defs.h>
 

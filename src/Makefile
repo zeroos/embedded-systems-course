@@ -7,14 +7,14 @@ all: 	libs led_blink.hex test_analog.hex test_eeprom.hex test_serial.hex \
 include Makefile.common
 -include $(objects:.o=.d)
 
-CPPFLAGS += -Irawuno
-LDFLAGS  += -Lrawuno
-LDLIBS   += -lrawuno
+CPPFLAGS += -Ihal
+LDFLAGS  += -Lhal
+LDLIBS   += -lhal
 
 libs:
-	make -C rawuno
+	make -C hal
 
 clean::
-	make -C rawuno clean
+	make -C hal clean
 
 .PHONY: all libs

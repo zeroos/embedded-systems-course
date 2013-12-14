@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_PIN_H__
-#define __RAWUNO_PIN_H__
+#ifndef __HAL_PIN_H__
+#define __HAL_PIN_H__
 
 #include <avr/io.h>
 
@@ -70,7 +70,11 @@ namespace Pin {
         bclr(PORTC, PIN - 14);
     }
 
-    void write(bool value) const {
+    inline void toggle() const {
+      if (read()) low(); else high();
+    }
+
+    inline void write(bool value) const {
       if (value) high(); else low();
     }
 

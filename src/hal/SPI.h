@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_SPI_H__
-#define __RAWUNO_SPI_H__
+#ifndef __HAL_SPI_H__
+#define __HAL_SPI_H__
 
 #include <util/atomic.h>
 

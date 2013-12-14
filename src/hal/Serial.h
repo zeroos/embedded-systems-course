@@ -1,5 +1,5 @@
-#ifndef __RAWUNO_SERIAL_H__
-#define __RAWUNO_SERIAL_H__
+#ifndef __HAL_SERIAL_H__
+#define __HAL_SERIAL_H__
 
 #include "Common.h"
 
