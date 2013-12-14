@@ -24,11 +24,11 @@ LDLIBS   =
 FMT = "%6s  %-32s { %s }\n"
 
 %.o: %.c
-	@printf $(FMT) "CC" "$@" "$^"
+	@printf $(FMT) "CC" "$@" "$(subst ../,,$^)"
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 %.o: %.cpp
-	@printf $(FMT) "CXX" "$@" "$^"
+	@printf $(FMT) "CXX" "$@" "$(subst ../,,$^)"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 %.a:
@@ -36,7 +36,7 @@ FMT = "%6s  %-32s { %s }\n"
 	$(AR) cr $@ $^
 	$(RANLIB) $@
 
-%.elf: %.o
+%.elf:
 	@printf $(FMT) "LINK" "$@" "$^ $(LDLIBS)"
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 

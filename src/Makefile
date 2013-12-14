@@ -1,20 +1,30 @@
-objects = led_blink.o test_analog.o test_eeprom.o test_serial.o test_spi.o \
-	  test_temp_sensor.o test_timer0.o
+PROGRAMS = led_blink.hex test_analog.hex test_eeprom.hex test_serial.hex \
+	   test_spi.hex test_temp_sensor.hex test_timer0.hex
 
-all: 	libs led_blink.hex test_analog.hex test_eeprom.hex test_serial.hex \
-	test_spi.hex test_temp_sensor.hex test_timer0.hex
+all: $(PROGRAMS)
 
 include Makefile.common
--include $(objects:.o=.d)
+-include $(subst .cpp,.d,$(wildcard *.cpp))
 
-CPPFLAGS += -Ihal
-LDFLAGS  += -Lhal
-LDLIBS   += -lhal
+led_blink.elf: led_blink.o hal/libhal.a
+test_analog.elf: test_analog.o hal/libhal.a
+test_eeprom.elf: test_eeprom.o hal/libhal.a
+test_serial.elf: test_serial.o hal/libhal.a
+test_spi.elf: test_spi.o hal/libhal.a
+test_temp_sensor.elf: test_temp_sensor.o hal/libhal.a
+test_timer0.elf: test_timer0.o hal/libhal.a
 
-libs:
+CPPFLAGS += -Ibase -Ihal
+LDFLAGS += -Lbase -Lhal
+
+hal/libhal.a:
+	make -C hal
+
+base/libbase.a:
 	make -C hal
 
 clean::
+	make -C base clean
 	make -C hal clean
 
-.PHONY: all libs
+.PHONY: all

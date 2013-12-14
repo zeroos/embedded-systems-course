@@ -6,7 +6,7 @@
 #include "Serial.h"
 #include "SPI.h"
 
-/* This test is implemented for nRF24L01+ board. */
+/* Uses nRF24L01+ board connected to pins 10-13. */
 
 static Pin::Pin<SS> slaveSelect;
 
