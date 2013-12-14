@@ -1,5 +1,6 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
+#include <util/delay.h>
 
 #include "EEPROM.h"
 #include "ProgMem.h"
@@ -14,15 +15,17 @@ int main() {
   sei();
 
   while(1) {
-    uint8_t c = counter.get();
+    uint8_t n = counter.get();
 
-    printf_P(PSTR("Counter = %d\n"), c);
-    puts_P(PSTR("Enter a key to increment!"));
-    (void)getchar();
+    printf_P(
+      PSTR("Press [i] to increment or [d] to decrement counter [%d]!\n"), n);
 
-    c++;
+    int c = getchar();
 
-    counter.put(c);
+    if (c == 'i')
+      counter.put(++n);
+    if (c == 'd')
+      counter.put(--n);
   }
 
   return 0;

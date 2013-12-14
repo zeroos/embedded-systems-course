@@ -15,7 +15,9 @@ namespace EEPROM {
     class Var {
       private:
         uint16_t address() const {
-          static EEMEM T var = 0;
+          /* Avrdude cannot program EEPROM with Arduino backend, so we cannot
+           * initialize the variable. */
+          static EEMEM T var;
           return (uint16_t)&var;
         }
 

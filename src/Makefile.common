@@ -15,13 +15,13 @@ RANLIB  = avr-ranlib
 READELF = avr-readelf
 
 ARFLAGS  =
-CFLAGS   = -Os -Wall -Wextra -Werror
+CFLAGS   = -g -Os -Wall -Wextra -Werror
 CPPFLAGS = -DF_CPU=$(F_CPU)
 CXXFLAGS = $(CFLAGS) -std=c++11
 LDFLAGS  =
 LDLIBS   =
 
-FMT = "%6s  %-20s { %s }\n"
+FMT = "%6s  %-32s { %s }\n"
 
 %.o: %.c
 	@printf $(FMT) "CC" "$@" "$^"
@@ -31,10 +31,6 @@ FMT = "%6s  %-20s { %s }\n"
 	@printf $(FMT) "CXX" "$@" "$^"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-%.s: %.cpp
-	@printf $(FMT) "CXX" "$@" "$^"
-	$(CXX) $(CPPFLAGS) $(CFLAGS) -fverbose-asm -S -o $@ $<
-
 %.a:
 	@printf $(FMT) "LIB" "$@" "$^"
 	$(AR) cr $@ $^
@@ -43,6 +39,14 @@ FMT = "%6s  %-20s { %s }\n"
 %.elf: %.o
 	@printf $(FMT) "LINK" "$@" "$^ $(LDLIBS)"
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+%.lst: %.elf
+	@printf $(FMT) "LST" "$@" "$^"
+	$(OBJDUMP) -h -S $^ > $@
+
+%.lst: %.o
+	@printf $(FMT) "LST" "$@" "$^"
+	$(OBJDUMP) -h -S $^ > $@
 
 .PRECIOUS: %.elf
 
@@ -65,7 +69,7 @@ install-%: %.hex
 	sed -i "" -e "s,\($*\)\.o[ :]*,\1.o $@ : ,g" $@
 
 clean::
-	rm -vf *.{elf,hex,d,o,a,map} *~
+	rm -vf *.{elf,hex,d,o,a,map,lst} *~
 
 ifneq ($(VERBOSE), 1)
 .SILENT:
