@@ -7,35 +7,32 @@
 /* ADC conversion complete interrupt */
 EMPTY_INTERRUPT(ADC_vect);
 
-static Analog::VoltageRef voltageRef = Analog::DEFAULT;
+void Analog::init() {
+  ADMUX = GROUND | REF_DEFAULT;
+  ADCSRA = _BV(ADEN) | _BV(ADIE) | _BV(ADSC) | CLK_DIV128;
 
-void Analog::setVoltageRef(Analog::VoltageRef ref) {
-  voltageRef = ref;
+  /* Interrupts are not enabled yet! */
+  while (bget(ADCSRA, ADSC));
 }
 
-int16_t Analog::read(uint8_t pin) {
-  if (pin >= A0)
-    pin -= A0;
-
-  if (pin < 6) {
-    /* Set up pin mode */
-    bclr(DDRC, pin);
-    bclr(PORTC, pin);
+bool Analog::selectInput(Input channel, VoltageRef ref) {
+  if (channel <= ADC7) {
     /* Set up input pin and reference voltage */
-    ADMUX = (voltageRef << 6) | pin;
+    ADMUX = ref | channel;
     /* Digital input disable on analog pin. */
-    DIDR0 = _BV(pin);
-  } else if (pin == BUILTIN_TEMP) {
+    DIDR0 = channel;
+  } else if (channel == TEMPERATURE) {
     /* For builtin temperature sensor 1.1V reference must be selected */
-    ADMUX = (INTERNAL << 6) | _BV(MUX3);
+    ADMUX = REF_1V1 | channel;
   } else {
-    return -1;
+    return false;
   }
 
-  uint8_t hi, lo;
+  return true;
+}
 
-  /* Enable ADC and ADC interrupt */
-  ADCSRA = _BV(ADIE) | _BV(ADEN);
+int16_t Analog::read() {
+  uint8_t hi, lo;
 
   /* Start conversion! */
   bset(ADCSRA, ADSC);
