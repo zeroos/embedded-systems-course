@@ -10,7 +10,7 @@
  */
 
 int main() {
-  Serial::init(38400);
+  Serial::init();
   Serial::attachStdIO();
 
   Analog::init();

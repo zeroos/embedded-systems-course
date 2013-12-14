@@ -173,7 +173,7 @@ void Pin::shiftOut(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder,
 }
 
 uint8_t Pin::shiftIn(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder) {
-	uint8_t value = 0;
+  uint8_t value = 0;
 
   if (bitOrder == LSBFIRST) {
     for (int8_t i = 0; i < 8; i++) {
@@ -189,5 +189,5 @@ uint8_t Pin::shiftIn(uint8_t dataPin, uint8_t clkPin, BitOrder bitOrder) {
     }
   }
 
-	return value;
+  return value;
 }

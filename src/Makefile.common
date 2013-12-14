@@ -17,7 +17,7 @@ READELF = avr-readelf
 ARFLAGS  =
 CFLAGS   = -g -Os -Wall -Wextra -Werror
 CPPFLAGS = -DF_CPU=$(F_CPU)
-CXXFLAGS = $(CFLAGS) -std=c++11
+CXXFLAGS = $(CFLAGS) -std=c++11 -fno-rtti
 LDFLAGS  =
 LDLIBS   =
 
@@ -69,7 +69,7 @@ install-%: %.hex
 	sed -i "" -e "s,\($*\)\.o[ :]*,\1.o $@ : ,g" $@
 
 clean::
-	rm -vf *.{elf,hex,d,o,a,map,lst} *~
+	rm -vf *.{elf,hex,d,o,a,map,lst,rpo} *~
 
 ifneq ($(VERBOSE), 1)
 .SILENT:

@@ -21,7 +21,7 @@ static void printRegister(uint8_t i) {
 }
 
 int main() {
-  Serial::init(38400);
+  Serial::init();
   Serial::attachStdIO();
   SPI::init(SPI::MASTER, SPI::CLK_DIV16);
 

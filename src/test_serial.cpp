@@ -4,7 +4,7 @@
 #include "Serial.h"
 
 int main() {
-  Serial::init(38400);
+  Serial::init();
   Serial::attachStdIO();
 
   while(1) {

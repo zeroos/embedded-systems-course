@@ -9,7 +9,7 @@
 static EEPROM::Byte counter;
 
 int main() {
-  Serial::init(38400);
+  Serial::init();
   Serial::attachStdIO();
 
   sei();

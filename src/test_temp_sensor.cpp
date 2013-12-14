@@ -15,7 +15,7 @@ const float chipTempOffset = 336.59;
 const float chipTempCoeff = 1.17;
 
 int main() {
-  Serial::init(38400);
+  Serial::init();
   Serial::attachStdIO();
 
   Analog::init();

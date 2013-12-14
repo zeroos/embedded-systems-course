@@ -12,22 +12,6 @@ EMPTY_INTERRUPT(USART_TX_vect);
 /* Data register empty interrupt */
 EMPTY_INTERRUPT(USART_UDRE_vect);
 
-void Serial::init(const uint32_t baud) {
-  uint16_t ubrr = (F_CPU + 4UL * baud) / (8UL * baud) - 1UL;
-
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    UBRR0H = ubrr >> 8;
-    UBRR0L = ubrr & 0xff;
-
-    /* Improve baud rate error by using 2x clk */
-    UCSR0A = _BV(U2X0);
-    /* Interrupts enable, TX/RX enable. */
-    UCSR0B = _BV(RXCIE0) | _BV(TXCIE0) | _BV(UDRIE0) | _BV(RXEN0) | _BV(TXEN0);
-    /* 8N1 frame format */
-    UCSR0C = _BV(UCSZ00) | _BV(UCSZ01);
-  }
-}
-
 int16_t Serial::recvByte() {
   /* Wait for data to be received */
   while (bit_is_clear(UCSR0A, RXC0))
@@ -59,7 +43,7 @@ int16_t Serial::sendByte(uint8_t byte) {
   return 0;
 }
 
-static int ser_putc(char c, FILE *stream __attribute__((unused))) {
+static int ser_putc(char c, FILE *stream UNUSED) {
   /* Always put CR character after LF */
   if (c == '\n')
     if (Serial::sendByte('\r') < 0)
@@ -68,7 +52,7 @@ static int ser_putc(char c, FILE *stream __attribute__((unused))) {
   return (Serial::sendByte(c) < 0) ? EOF : 0;
 }
 
-static int ser_getc(FILE *stream __attribute__((unused))) {
+static int ser_getc(FILE *stream UNUSED) {
   int c = Serial::recvByte();
 
   if (c < 0)
