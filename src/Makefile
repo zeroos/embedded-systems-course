@@ -1,7 +1,7 @@
 PROGRAMS = led_blink.hex test_analog.hex test_eeprom.hex test_serial.hex \
 	   test_spi.hex test_temp_sensor.hex test_timer0.hex
 
-all: $(PROGRAMS)
+all: libs $(PROGRAMS)
 
 include Makefile.common
 -include $(subst .cpp,.d,$(wildcard *.cpp))
@@ -17,14 +17,12 @@ test_timer0.elf: test_timer0.o hal/libhal.a
 CPPFLAGS += -Ibase -Ihal
 LDFLAGS += -Lbase -Lhal
 
-hal/libhal.a:
-	make -C hal
-
-base/libbase.a:
+libs:
+	make -C base
 	make -C hal
 
 clean::
 	make -C base clean
 	make -C hal clean
 
-.PHONY: all
+.PHONY: all libs

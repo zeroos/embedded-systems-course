@@ -9,9 +9,8 @@
 EMPTY_INTERRUPT(USART_RX_vect);
 /* TX complete interrupt */
 EMPTY_INTERRUPT(USART_TX_vect);
-/* Data register empty interrupt */
-EMPTY_INTERRUPT(USART_UDRE_vect);
 
+/* TODO: read UDR0 and UCSR0A directly in interrupt handler */
 int16_t Serial::recvByte() {
   /* Wait for data to be received */
   while (bit_is_clear(UCSR0A, RXC0))

@@ -31,7 +31,7 @@ namespace SPI {
     init(Mode mode = MASTER, Clock clock = CLK_DIV2, BitOrder order = LSBFIRST)
   {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      SPCR = _BV(SPE) | _BV(SPIE) | mode | order | (clock >> 1);
+      SPCR = _BV(SPE) |  mode | order | (clock >> 1);
       SPSR = clock & 1;
 
       Pin::Pin<MISO> miso;
