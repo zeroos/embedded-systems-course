@@ -37,7 +37,7 @@ ISR(TIMER0_COMPA_vect) {
       VSYNC_L;
       line_state = 3;
       break;
-    case 45:
+    case 3:
       VSYNC_H;
       line_state = 0;
       break;
@@ -67,10 +67,10 @@ ISR(TIMER0_COMPB_vect) {
     case 2:
       PORTD = ceiling_color;
       line_state = 0;
-      OCR0B = 11;
+      OCR0B = 2;
       break;
     default:
-      OCR0B = 11;
+      OCR0B = 2;
       HSYNC_H;
   }
 }
